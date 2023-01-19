@@ -1,0 +1,50 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\mahdi\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react -D
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\mahdi\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\dotnet;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\mahdi\AppData\Local\Microsoft\WindowsApps;C:\Users\mahdi\AppData\Roaming\npm;C:\Users\mahdi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\mahdi\AppData\Local\gitkraken\bin;C:\Users\mahdi\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\WebStorm 2021.2.2\bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND registry.npmjs.org
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:71:26)
+
+npm manifest: 
+  {
+    "name": "refactjs-actionman",
+    "version": "0.0.0",
+    "description": "actionman is a high-speend & context based & typesafe state management for react applications",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/refactjs/refactjs-actionman.git"
+    },
+    "keywords": [
+      "state-management",
+      "state",
+      "global-state"
+    ],
+    "author": "Mahdi",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/refactjs/refactjs-actionman/issues"
+    },
+    "homepage": "https://github.com/refactjs/refactjs-actionman#readme"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
