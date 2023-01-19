@@ -1,23 +1,23 @@
 {
-  "version": "0.1.0",
+  "version": "0.0.1",
   "license": "MIT",
-  "main": "mylib/dist/index.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "mylib/dist",
+    "dist",
     "src"
   ],
   "engines": {
     "node": ">=10"
   },
   "scripts": {
-    "start": "mylib/node_modules/.bin/tsdx watch",
-    "build": "mylib/node_modules/.bin/tsdx build",
-    "test": "mylib/node_modules/.bin/tsdx test --passWithNoTests",
-    "lint": "mylib/node_modules/.bin/tsdx lint",
-    "prepare": "mylib/node_modules/.bin/tsdx build",
-    "size": "mylib/node_modules/.bin/size-limit",
-    "analyze": "mylib/node_modules/.bin/size-limit --why"
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
   },
   "peerDependencies": {
     "react": ">=16"
@@ -33,16 +33,16 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "mylib",
-  "author": "Mahdi",
-  "module": "mylib/dist/mylib.esm.js",
+  "name": "refactjs-actionman",
+  "author": "MahdiPakravan",
+  "module": "dist/refactjs-actionman.esm.js",
   "size-limit": [
     {
-      "path": "dist/mylib.cjs.production.min.js",
+      "path": "dist/refactjs-actionman.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/mylib.esm.js",
+      "path": "dist/refactjs-actionman.esm.js",
       "limit": "10 KB"
     }
   ],
@@ -57,5 +57,8 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "npm-local-development": "^0.4.0"
   }
 }
