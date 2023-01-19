@@ -14,9 +14,6 @@ export type ActionHandler<Global> = (
   payload: ActionPayload
 ) => Global | void | Promise<void>;
 
-export type NonTypedActionNames = {};
-export type ActionPayloads<Global> = Record<string, ActionHandler<Global>>;
-
 export type ActionFunc = (
   payload?: ActionPayload,
   options?: ActionOptions

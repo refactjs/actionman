@@ -1,7 +1,5 @@
 import React, {
   createContext,
-  FC,
-  PropsWithChildren,
   useContext,
   useEffect,
   useState,
@@ -9,7 +7,6 @@ import React, {
 import {
   ActionFunc,
   ActionHandler,
-  ActionOptions,
   ActionPayload,
   GLOBAL_DISPATCH_KEY,
   GlobalProviderProps,
@@ -93,7 +90,7 @@ export const $addActionHandler = (
   resolver: ActionHandler<unknown>
 ) => {
   actionHandlers[actionName] = resolver;
-  actions[actionName] = (payload?: ActionPayload, options?: ActionOptions) => {
+  actions[actionName] = (payload?: ActionPayload) => {
     $dispatch(actionName, payload);
   };
 };
