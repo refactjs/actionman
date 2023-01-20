@@ -24,6 +24,7 @@ export const GlobalProvider: <T extends Object>(
 ) => React.ReactElement<GlobalProviderProps<T>> = ({
   children,
   initialState,
+  debug
 }) => {
   const [globalState, setGlobalState] = useState(initialState);
 
@@ -48,6 +49,12 @@ export const GlobalProvider: <T extends Object>(
       GLOBAL_DISPATCH_KEY,
       onDispatch as unknown as () => void
     );
+
+    if(debug) {
+      document.addEventListener("dblclick", () => {
+        console.debug("#actionman global : " , globalState);
+      });
+    }
 
     return () => {
       document.removeEventListener(GLOBAL_DISPATCH_KEY, () => {});

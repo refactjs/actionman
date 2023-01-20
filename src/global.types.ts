@@ -4,6 +4,7 @@ export const GLOBAL_DISPATCH_KEY = "global__dispatch";
 
 export interface GlobalProviderProps<G = any> extends PropsWithChildren {
   initialState: G;
+  debug ?: boolean
 }
 export type ActionNames = string;
 export type ActionPayload = any;
