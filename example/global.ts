@@ -17,7 +17,3 @@ export const dispatch = typed.dispatch;
 export const getActions = typed.getActions;
 export const withGlobal = typed.withGlobal;
 export const GlobalProvider = typed.GlobalProvider;
-
-setTimeout(() => {
-  dispatch("HI", {});
-}, 2000);
