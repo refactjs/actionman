@@ -33,6 +33,7 @@ export const GlobalProvider: <T extends Object>(
     payload: any;
     action: string;
   }>) => {
+    alert("Dispatched Inside " + action)
     const reducer = actionHandlers[action];
     let reducerResult = reducer(globalState, actionHandlers, payload);
     if (reducerResult instanceof Promise) {
@@ -56,6 +57,7 @@ export const GlobalProvider: <T extends Object>(
 
   return (
     <GlobalContext.Provider value={globalState}>
+      Global Provider is HERE
       {children}
     </GlobalContext.Provider>
   );

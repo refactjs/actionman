@@ -1,5 +1,5 @@
 import React from "react";
-import { $useGlobalSelector } from "./index";
+import {$useGlobalSelector} from "./index";
 
 export function $withGlobal<
   StateProps extends Object,
