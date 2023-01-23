@@ -2,25 +2,48 @@ import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import "./global"
-import App from "./app";
 import {addActionHandler} from "./global";
-import {GlobalProvider} from "../src";
+import ComponentY from "./y";
+import ComponentX from "./x";
+import ObjectComponent from "./object";
 
-addActionHandler("setTheme", (global, actions, payload) => {
+addActionHandler("setX", (global, actions, payload) => {
     return {
         ...global,
-        theme: payload,
+        x : payload,
     };
 });
 
-const INITIAL_STATE = {
-    theme: "dark"
-}
+addActionHandler("setY", (global, actions, payload) => {
+    return {
+        ...global,
+        y : payload,
+    };
+});
+
+addActionHandler("setAuth", (global, actions, payload) => {
+    return {
+        ...global,
+        auth : {
+            ...global.auth,
+            ...payload
+        }
+    };
+});
+
 const Index = () => {
     return (
-        <GlobalProvider initialState={INITIAL_STATE}>
-            <App/>
-        </GlobalProvider>
+        <div style={{
+            width : "90vw",
+            height : "90vh",
+            display : "flex",
+            justifyContent : "space-between",
+            alignItems : "center"
+        }}>
+            <ComponentX/>
+            <ComponentY/>
+            <ObjectComponent/>
+        </div>
     );
 };
 

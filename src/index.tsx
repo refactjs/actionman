@@ -1,96 +1,66 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import {
-  ActionFunc,
-  ActionHandler,
-  ActionPayload,
-  GLOBAL_DISPATCH_KEY,
-  GlobalProviderProps,
-} from "./global.types";
-import { $withGlobal } from "./global.hoc";
+import React, {createContext, useEffect, useRef, useState,} from "react";
+import {ActionFunc, ActionHandler, ActionPayload,} from "./global.types";
+import {$withGlobal} from "./global.hoc";
+import {createCallbackManager} from "./callback";
+import {areDeepEqual} from "./areDeepEqual";
 
 let currentGlobal = {};
 const actionHandlers: Record<string, ActionHandler<unknown>> = {};
 const actions: Record<string, ActionFunc> = {};
 
+const {runCallbacks , addCallback} = createCallbackManager()
+
 export const GlobalContext = createContext<unknown>({});
 
-export const GlobalProvider: <T extends Object>(
-  props: GlobalProviderProps<T>
-) => React.ReactElement<GlobalProviderProps<T>> = ({
-  children,
-  initialState,
-  debug
-}) => {
-  const [globalState, setGlobalState] = useState(initialState);
+export function useForceReRender() {
+  const [,setTrigger] = useState(false);
 
-  const onDispatch = async ({
-    detail: { action, payload },
-  }: CustomEvent<{
-    payload: any;
-    action: string;
-  }>) => {
-    const reducer = actionHandlers[action];
-    let reducerResult = reducer(globalState, actionHandlers, payload);
-    if (reducerResult instanceof Promise) {
-      reducerResult = await reducerResult;
-    }
-    if (reducerResult) {
-      setGlobalState(reducerResult as any);
-      currentGlobal = reducerResult as any;
-    }
-  };
+  return () => setTrigger(prev => !prev);
+}
+
+export function $useGlobalSelector<T>(cb : (global : T) => Partial<T>): T {
+  const prevValRef = useRef<any>(null);
+  const forceUpdate = useForceReRender();
+
   useEffect(() => {
-    document.addEventListener(
-      GLOBAL_DISPATCH_KEY,
-      onDispatch as unknown as () => void
-    );
+    addCallback(() => {
+      const [newVal , prevVal] = [cb(currentGlobal as T),prevValRef.current && cb(prevValRef.current)]
+      if(!areDeepEqual(prevVal , newVal)) forceUpdate()
+    });
+  } , [])
 
-    if(debug) {
-      document.addEventListener("dblclick", () => {
-        console.debug("#actionman global : " , globalState);
-      });
-    }
+  const global = currentGlobal
+  const newVal = cb(global as T)
 
-    return () => {
-      document.removeEventListener(GLOBAL_DISPATCH_KEY, () => {});
-    };
-  }, []);
+  prevValRef.current = global
 
-  return (
-    <GlobalContext.Provider value={globalState}>
-      Global Provider is HERE
-      {children}
-    </GlobalContext.Provider>
-  );
-};
-
-export function $useGlobalSelector<T>(): T {
-  const global = useContext(GlobalContext);
-
-  if (!global)
-    throw new Error("You must use theme hook as a child of theme provider");
-
-  return global as T;
+  return newVal as T;
 }
 
 export function $getGlobal<T>() {
   return currentGlobal as T;
 }
+export function $setGlobal<T>(global : T) {
+  currentGlobal = global as any
+  runCallbacks()
+  return currentGlobal as T;
+}
 
-export const $dispatch = (action: string, payload: any) => {
-  document.dispatchEvent(
-    new CustomEvent(GLOBAL_DISPATCH_KEY, {
-      detail: {
-        action,
-        payload,
-      },
-    })
-  );
+export const $dispatch = (action: string, payload: any) : void => {
+    const reducer = actionHandlers[action];
+
+    let reducerResult = reducer(currentGlobal, actionHandlers, payload);
+    if (reducerResult instanceof Promise) {
+      reducerResult.then((result) => {
+        currentGlobal = result
+        runCallbacks()
+      });
+      return
+    }
+    if (reducerResult) {
+      currentGlobal = reducerResult as any;
+    }
+    runCallbacks();
 };
 
 export const $addActionHandler = (
@@ -125,13 +95,14 @@ export const typify = <GLOBAL, ACTIONS, UNTYPED_ACTIONS>() => {
 
   return {
     getGlobal: $getGlobal as () => GLOBAL,
+    setGlobal: $setGlobal as (global : GLOBAL) => GLOBAL,
     addActionHandler: $addActionHandler as <
       ActionName extends CombineActionNames
     >(
       action: ActionName,
       resolver: ActionHandlers[ActionName]
     ) => GLOBAL,
-    useGlobal: $useGlobalSelector,
+    useGlobal: $useGlobalSelector as <T>(cb : (global : GLOBAL) => T) => T ,
     dispatch: $dispatch,
     withGlobal: $withGlobal as unknown as <StateProps = any, OwnProps = any>(
       cb: (
@@ -140,6 +111,5 @@ export const typify = <GLOBAL, ACTIONS, UNTYPED_ACTIONS>() => {
       ) => StateProps & OwnProps
     ) => (WrappedComponent: any) => any,
     getActions: $getActions as () => Actions,
-    GlobalProvider: GlobalProvider,
   };
 };
