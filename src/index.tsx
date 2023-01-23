@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useRef, useState,} from "react";
+import React, {createContext, FC, useEffect, useRef, useState,} from "react";
 import {ActionFunc, ActionHandler, ActionPayload,} from "./global.types";
 import {$withGlobal} from "./global.hoc";
 import {createCallbackManager} from "./callback";
@@ -17,7 +17,9 @@ export function useForceReRender() {
 
   return () => setTrigger(prev => !prev);
 }
-
+export function $useGlobalAndProps<T , O>(props: O ,cb : (...args : [globalProps : T , ownProps : O]) => Partial<T&O>): any {
+  console.log({props,cb})
+}
 export function $useGlobalSelector<T>(cb : (global : T) => Partial<T>): T {
   const prevValRef = useRef<any>(null);
   const forceUpdate = useForceReRender();
@@ -109,7 +111,7 @@ export const typify = <GLOBAL, ACTIONS, UNTYPED_ACTIONS>() => {
         globalContextType: GLOBAL,
         ownProps: OwnProps
       ) => StateProps & OwnProps
-    ) => (WrappedComponent: any) => any,
+    ) => (WrappedComponent: React.ComponentType<OwnProps>) => FC<OwnProps>,
     getActions: $getActions as () => Actions,
   };
 };

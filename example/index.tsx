@@ -41,7 +41,7 @@ const Index = () => {
             alignItems : "center"
         }}>
             <ComponentX/>
-            <ComponentY/>
+            <ComponentY testiProps={1} />
             <ObjectComponent/>
         </div>
     );

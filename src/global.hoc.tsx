@@ -13,7 +13,7 @@ export function $withGlobal<
       WrappedComponent.displayName || WrappedComponent.name || "Component";
 
     const ComponentWithTheme = (props: OwnProps) => {
-      const useGlobalProps = $useGlobalSelector<Global>();
+      const useGlobalProps = $useGlobalSelector<Global>(cb as any);
       const cbResult = cb(useGlobalProps, props as OwnProps);
       const finalProps = {...props, ...cbResult}
 
