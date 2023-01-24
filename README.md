@@ -11,3 +11,8 @@ high-speend & context based & typesafe state management for react applications
 ## Table Of <u>Actionman</u> Features
 
 - [Quick Start (comming soon...)](#quick-start)
+
+###installing
+```
+yarn add refactjs-actionman
+```
