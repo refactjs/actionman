@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import "./global"
-import {addActionHandler} from "./global";
+import {addActionHandler, getActions} from "./global";
 import ComponentY from "./y";
 import ComponentX from "./x";
 import ObjectComponent from "./object";
@@ -35,14 +35,20 @@ const Index = () => {
     return (
         <div style={{
             width : "90vw",
-            height : "90vh",
+            height : "60vh",
             display : "flex",
+            flexDirection : "column",
             justifyContent : "space-between",
             alignItems : "center"
         }}>
             <ComponentX/>
             <ComponentY testiProps={1} />
             <ObjectComponent/>
+            <button onClick={() => {
+                getActions().setX(Math.random())
+                getActions().setY(Math.random())
+                getActions().setAuth({name : "CONCURRENT NAME" + Math.random() , lastName : "CONCURRENT LASTNAME" + Math.random()})
+            }}>Test Concurrent</button>
         </div>
     );
 };

@@ -49,20 +49,22 @@ export function $setGlobal<T>(global : T) {
 }
 
 export const $dispatch = (action: string, payload: any) : void => {
-    const reducer = actionHandlers[action];
+    setTimeout(() => {
+      const reducer = actionHandlers[action];
 
-    let reducerResult = reducer(currentGlobal, actionHandlers, payload);
-    if (reducerResult instanceof Promise) {
-      reducerResult.then((result) => {
-        currentGlobal = result
-        runCallbacks()
-      });
-      return
-    }
-    if (reducerResult) {
-      currentGlobal = reducerResult as any;
-    }
-    runCallbacks();
+      let reducerResult = reducer(currentGlobal, actionHandlers, payload);
+      if (reducerResult instanceof Promise) {
+        reducerResult.then((result) => {
+          currentGlobal = result
+          runCallbacks()
+        });
+        return
+      }
+      if (reducerResult) {
+        currentGlobal = reducerResult as any;
+      }
+      runCallbacks();
+    })
 };
 
 export const $addActionHandler = (

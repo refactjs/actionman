@@ -6,6 +6,7 @@ type Props = {
 };
 
 const ComponentX = (props : Props) => {
+    console.log("X")
     return (
         <div>
             <XShower/>
