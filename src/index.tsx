@@ -17,9 +17,6 @@ export function useForceReRender() {
 
   return () => setTrigger(prev => !prev);
 }
-export function $useGlobalAndProps<T , O>(props: O ,cb : (...args : [globalProps : T , ownProps : O]) => Partial<T&O>): any {
-  console.log({props,cb})
-}
 export function $useGlobalSelector<T>(cb : (global : T) => Partial<T>): T {
   const prevValRef = useRef<any>(null);
   const forceUpdate = useForceReRender();
